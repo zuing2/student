@@ -26,7 +26,7 @@
         <div class="input-row">
           <div class="select-wrapper">
             <select id="studentClass" required>
-              <option value="" disabled selected>반 선택</option>
+              <option value="" disabled selected>반/학년 선택</option>
               <option value="1반">3학년 1반</option>
               <option value="2반">3학년 2반</option>
               <option value="3반">3학년 3반</option>
@@ -37,13 +37,14 @@
               <option value="8반">3학년 8반</option>
               <option value="9반">3학년 9반</option>
               <option value="10반">3학년 10반</option>
+              <option value="그 외 학년">그 외 학년</option>
             </select>
           </div>
           <input type="text" id="studentName" placeholder="성함 입력 (예: 홍길동)" required autocomplete="off">
         </div>
       </section>
 
-      <!-- 2. 방문 목적 선택 (대형 네모 선택창) -->
+      <!-- 2. 방문 목적 선택 -->
       <section class="form-section">
         <label class="section-label"><span class="num">2</span> 방문 목적 선택</label>
         <div class="purpose-options">
@@ -74,7 +75,7 @@
         </div>
       </section>
 
-      <!-- 3. 선생님 선택 (11분 사전 배치) -->
+      <!-- 3. 선생님 선택 -->
       <section class="form-section">
         <label class="section-label"><span class="num">3</span> 담당 선생님 선택 (11명)</label>
         <div class="teacher-grid">
@@ -164,7 +165,6 @@
     </form>
   </div>
 
-  <!-- 완료 팝업 모달 -->
   <div id="modalOverlay" class="modal-overlay hidden">
     <div class="modal-card">
       <div class="success-icon">🔔</div>
