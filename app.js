@@ -29,8 +29,10 @@ function submitCall(e) {
 
   client.publish(MQTT_TOPIC, JSON.stringify(callData));
 
+  const displayClass = studentClass === '그 외 학년' ? '그 외 학년' : `3학년 ${studentClass}`;
+
   document.getElementById('modalMessage').innerHTML = 
-    `<b>3학년 ${studentClass} ${studentName}</b> 학생<br><span style="color:#818cf8; font-weight:700;">${teacher}</span> 호출을 완료했습니다.`;
+    `<b>${displayClass} ${studentName}</b> 학생<br><span style="color:#818cf8; font-weight:700;">${teacher}</span> 호출을 완료했습니다.`;
   document.getElementById('modalOverlay').classList.remove('hidden');
 }
 
@@ -60,13 +62,15 @@ function addCallCard(data) {
   card.className = 'call-card';
   card.id = `call-${data.id}`;
   
+  const displayClass = data.studentClass === '그 외 학년' ? '그 외 학년' : `3학년 ${data.studentClass}`;
+
   card.innerHTML = `
     <div class="call-card-header">
       <span class="badge-purpose purpose-${data.purpose}">${data.purpose}</span>
       <span class="call-time">${data.time}</span>
     </div>
     <div class="call-info">
-      <div class="student-detail">3학년 ${data.studentClass} ${data.studentName}</div>
+      <div class="student-detail">${displayClass} ${data.studentName}</div>
       <div class="teacher-target">👉 ${data.teacher}</div>
     </div>
     <button onclick="dismissCall(${data.id})" class="complete-btn">호출 처리 완료</button>
@@ -120,9 +124,18 @@ function playChime() {
   }
 }
 
+// 음성 안내 (TTS)
 function speakTTS(data) {
   if ('speechSynthesis' in window) {
-    const text = `3학년 ${data.studentClass} ${data.studentName} 학생이 ${data.purpose} 건으로 ${data.teacher}을 호출했습니다.`;
+    // 과목명 및 중복 '선생님' 단어 제거 (예: "강만규선생님(물리)" -> "강만규")
+    const pureTeacherName = data.teacher.replace(/\(.*\)/, '').replace('선생님', '').trim();
+    
+    // 소속 안내 텍스트 정리 (예: "3반" -> "3학년 3반", "그 외 학년" -> "그 외 학년")
+    const classText = data.studentClass === '그 외 학년' ? '그 외 학년' : `3학년 ${data.studentClass}`;
+
+    // 최종 방송 멘트: "강만규 선생님, 3학년 3반 홍길동 학생이 출결 건으로 호출했습니다."
+    const text = `${pureTeacherName} 선생님, ${classText} ${data.studentName} 학생이 ${data.purpose} 건으로 호출했습니다.`;
+    
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'ko-KR';
     utterance.rate = 1.0;
