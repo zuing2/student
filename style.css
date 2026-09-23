@@ -1,0 +1,500 @@
+:root {
+  --bg-main: #07090e;
+  --card-bg: rgba(18, 24, 38, 0.75);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --accent-primary: #6366f1;
+  --accent-glow: rgba(99, 102, 241, 0.4);
+  --accent-green: #10b981;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --gold-accent: #f59e0b;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 배경 오로라 이펙트 */
+.student-bg {
+  background: 
+    radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.12) 0%, transparent 40%),
+    #07090e;
+  padding: 24px;
+}
+
+.kiosk-container {
+  width: 100%;
+  max-width: 720px;
+  background: var(--card-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--card-border);
+  border-radius: 28px;
+  padding: 36px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.kiosk-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.logo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  color: #a5b4fc;
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.pulse-ring {
+  width: 8px;
+  height: 8px;
+  background: #6366f1;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #6366f1;
+}
+
+.kiosk-header h1 {
+  font-size: 2.1rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, #ffffff 30%, #94a3b8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 6px;
+}
+
+.kiosk-header p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.form-section {
+  margin-bottom: 28px;
+}
+
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin-bottom: 14px;
+}
+
+.section-label .num {
+  width: 24px;
+  height: 24px;
+  background: var(--accent-primary);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+/* 입력 필드 스틸 UI */
+.input-row {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 14px;
+}
+
+select, input[type="text"] {
+  width: 100%;
+  padding: 16px 18px;
+  background: rgba(10, 15, 26, 0.8);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  color: #f8fafc;
+  font-size: 1rem;
+  font-weight: 500;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+select:focus, input[type="text"]:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 4px var(--accent-glow);
+  background: rgba(15, 23, 42, 0.9);
+}
+
+/* 2. 네모 선택 카드 (목적) */
+.purpose-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.purpose-card {
+  position: relative;
+  cursor: pointer;
+}
+
+.purpose-card input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.purpose-card .card-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 22px 12px;
+  background: rgba(10, 15, 26, 0.6);
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.purpose-card .icon {
+  font-size: 2.2rem;
+  margin-bottom: 8px;
+}
+
+.purpose-card .text {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.purpose-card .sub-text {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.purpose-card input:checked + .card-box {
+  background: rgba(99, 102, 241, 0.2);
+  border-color: #818cf8;
+  box-shadow: 0 0 25px var(--accent-glow), inset 0 0 10px rgba(99, 102, 241, 0.2);
+  transform: translateY(-4px);
+}
+
+/* 3. 선생님 선택 그리드 (11명 시인성 극대화) */
+.teacher-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+  gap: 12px;
+  max-height: 280px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.teacher-grid::-webkit-scrollbar {
+  width: 6px;
+}
+.teacher-grid::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+}
+
+.teacher-card {
+  position: relative;
+  cursor: pointer;
+}
+
+.teacher-card input {
+  position: absolute;
+  opacity: 0;
+}
+
+.teacher-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 10px;
+  background: rgba(10, 15, 26, 0.6);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  text-align: center;
+  transition: all 0.25s ease;
+}
+
+.teacher-subject {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #818cf8;
+  background: rgba(99, 102, 241, 0.12);
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin-bottom: 6px;
+}
+
+.teacher-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.teacher-card input:checked + .teacher-box {
+  background: linear-gradient(135deg, var(--accent-primary), #4f46e5);
+  border-color: #a5b4fc;
+  box-shadow: 0 8px 20px var(--accent-glow);
+  transform: scale(1.03);
+}
+
+.teacher-card input:checked + .teacher-box .teacher-subject {
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+}
+
+/* 버튼 */
+.submit-btn {
+  width: 100%;
+  padding: 20px;
+  background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
+  border: none;
+  border-radius: 20px;
+  color: white;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  box-shadow: 0 12px 25px rgba(99, 102, 241, 0.35);
+  transition: all 0.25s ease;
+  margin-top: 10px;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px rgba(99, 102, 241, 0.45);
+}
+
+/* 완료 모달 */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(3, 7, 18, 0.85);
+  backdrop-filter: blur(12px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-overlay.hidden { display: none; }
+
+.modal-card {
+  background: #0f172a;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 28px;
+  padding: 40px;
+  text-align: center;
+  max-width: 420px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+}
+
+.success-icon { font-size: 3.5rem; margin-bottom: 16px; }
+.modal-card h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 10px; }
+.modal-card p { color: var(--text-secondary); line-height: 1.6; margin-bottom: 24px; }
+
+.modal-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--accent-primary);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* ========================================================
+   교무실 대시보드 (teacher.html) 스타일
+   ======================================================== */
+.teacher-bg {
+  background: radial-gradient(circle at 50% 0%, #111827 0%, #030712 100%);
+  padding: 40px 20px;
+  align-items: flex-start;
+}
+
+.dashboard-container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-bottom: 28px;
+  margin-bottom: 36px;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.title-badge {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--accent-green);
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+}
+
+.dashboard-header h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #a7f3d0;
+  font-size: 0.9rem;
+  margin-top: 8px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  background-color: var(--accent-green);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--accent-green);
+  animation: pulse 1.8s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+.audio-enable-btn {
+  padding: 14px 24px;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #6ee7b7;
+  font-weight: 700;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.audio-enable-btn:hover {
+  background: rgba(16, 185, 129, 0.3);
+}
+
+.empty-notice {
+  text-align: center;
+  padding: 100px 20px;
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px dashed var(--card-border);
+  border-radius: 24px;
+  color: var(--text-secondary);
+}
+
+.empty-icon-wrap {
+  font-size: 3.5rem;
+  margin-bottom: 16px;
+}
+
+.empty-notice h3 {
+  font-size: 1.3rem;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.call-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 24px;
+}
+
+/* 수신 카드 스타일 */
+.call-card {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  border-left: 6px solid var(--accent-primary);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.4);
+  animation: slideIn 0.35s ease-out;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.call-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.badge-purpose {
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.purpose-출결 { background: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+.purpose-핸드폰 { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+.purpose-기타 { background: rgba(107, 114, 128, 0.2); color: #cbd5e1; border: 1px solid rgba(107, 114, 128, 0.3); }
+
+.call-time { font-size: 0.85rem; color: var(--text-secondary); }
+
+.student-detail {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 6px;
+}
+
+.teacher-target {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #c7d2fe;
+  margin-bottom: 20px;
+}
+
+.complete-btn {
+  width: 100%;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  color: var(--text-secondary);
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.complete-btn:hover {
+  background: var(--accent-green);
+  color: white;
+  border-color: var(--accent-green);
+}
