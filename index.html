@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3학년 교무실 스마트 호출 시스템</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+</head>
+<body class="student-bg">
+  <div class="kiosk-container">
+    <header class="kiosk-header">
+      <div class="logo-badge">
+        <span class="pulse-ring"></span>
+        3학년 교무실 호출 KIOSK
+      </div>
+      <h1>선생님 호출 시스템</h1>
+      <p>방문 정보를 선택 후 담당 선생님을 지정해 주세요.</p>
+    </header>
+
+    <form id="callForm" onsubmit="submitCall(event)">
+      <!-- 1. 학생 정보 입력 -->
+      <section class="form-section">
+        <label class="section-label"><span class="num">1</span> 학생 정보 입력</label>
+        <div class="input-row">
+          <div class="select-wrapper">
+            <select id="studentClass" required>
+              <option value="" disabled selected>반 선택</option>
+              <option value="1반">3학년 1반</option>
+              <option value="2반">3학년 2반</option>
+              <option value="3반">3학년 3반</option>
+              <option value="4반">3학년 4반</option>
+              <option value="5반">3학년 5반</option>
+              <option value="6반">3학년 6반</option>
+              <option value="7반">3학년 7반</option>
+              <option value="8반">3학년 8반</option>
+              <option value="9반">3학년 9반</option>
+              <option value="10반">3학년 10반</option>
+            </select>
+          </div>
+          <input type="text" id="studentName" placeholder="성함 입력 (예: 홍길동)" required autocomplete="off">
+        </div>
+      </section>
+
+      <!-- 2. 방문 목적 선택 (대형 네모 선택창) -->
+      <section class="form-section">
+        <label class="section-label"><span class="num">2</span> 방문 목적 선택</label>
+        <div class="purpose-options">
+          <label class="purpose-card">
+            <input type="radio" name="purpose" value="출결" required>
+            <div class="card-box">
+              <span class="icon">📋</span>
+              <span class="text">출결</span>
+              <span class="sub-text">조퇴 / 결석 / 지각</span>
+            </div>
+          </label>
+          <label class="purpose-card">
+            <input type="radio" name="purpose" value="핸드폰">
+            <div class="card-box">
+              <span class="icon">📱</span>
+              <span class="text">핸드폰</span>
+              <span class="sub-text">수령 및 제출</span>
+            </div>
+          </label>
+          <label class="purpose-card">
+            <input type="radio" name="purpose" value="기타">
+            <div class="card-box">
+              <span class="icon">💬</span>
+              <span class="text">기타</span>
+              <span class="sub-text">질문 및 상담</span>
+            </div>
+          </label>
+        </div>
+      </section>
+
+      <!-- 3. 선생님 선택 (11분 사전 배치) -->
+      <section class="form-section">
+        <label class="section-label"><span class="num">3</span> 담당 선생님 선택 (11명)</label>
+        <div class="teacher-grid">
+          <label class="teacher-card">
+            <input type="radio" name="teacher" value="강만규선생님(물리)" required>
+            <div class="teacher-box">
+              <span class="teacher-subject">물리</span>
+              <span class="teacher-name">강만규 선생님</span>
+            </div>
+          </label>
+          <label class="teacher-card">
+            <input type="radio" name="teacher" value="김건우선생님(국어)">
+            <div class="teacher-box">
+              <span class="teacher-subject">국어</span>
+              <span class="teacher-name">김건우 선생님</span>
+            </div>
+          </label>
+          <label class="teacher-card">
+            <input type="radio" name="teacher" value="김영민선생님(사회)">
+            <div class="teacher-box">
+              <span class="teacher-subject">사회</span>
+              <span class="teacher-name">김영민 선생님</span>
+            </div>
+          </label>
+          <label class="teacher-card">
+            <input type="radio" name="teacher" value="노여진선생님(국어)">
+            <div class="teacher-box">
+              <span class="teacher-subject">국어</span>
+              <span class="teacher-name">노여진 선생님</span>
+            </div>
+          </label>
+          <label class="teacher-card">
+            <input type="radio" name="teacher" value="박기만선생님(사회)">
+            <div class="teacher-box">
+              <span class="teacher-subject">사회</span>
+              <span class="teacher-name">박기만 선생님</span>
+            </div>
+          </label>
+          <label class="teacher-card">
+            <input type="radio" name="teacher" value="이의진선생님(체육)">
+            <div class="teacher-box">
+              <span class="teacher-subject">체육</span>
+              <span class="teacher-name">이의진 선생님</span>
+            </div>
+          </label>
+          <label class="teacher-card">
+            <input type="radio" name="teacher" value="이주영선생님(화학)">
+            <div class="teacher-box">
+              <span class="teacher-subject">화학</span>
+              <span class="teacher-name">이주영 선생님</span>
+            </div>
+          </label>
+          <label class="teacher-card">
+            <input type="radio" name="teacher" value="이필권선생님(미술)">
+            <div class="teacher-box">
+              <span class="teacher-subject">미술</span>
+              <span class="teacher-name">이필권 선생님</span>
+            </div>
+          </label>
+          <label class="teacher-card">
+            <input type="radio" name="teacher" value="최아현선생님(지구)">
+            <div class="teacher-box">
+              <span class="teacher-subject">지구과학</span>
+              <span class="teacher-name">최아현 선생님</span>
+            </div>
+          </label>
+          <label class="teacher-card">
+            <input type="radio" name="teacher" value="채정태선생님(수학)">
+            <div class="teacher-box">
+              <span class="teacher-subject">수학</span>
+              <span class="teacher-name">채정태 선생님</span>
+            </div>
+          </label>
+          <label class="teacher-card">
+            <input type="radio" name="teacher" value="홍지연선생님(영어)">
+            <div class="teacher-box">
+              <span class="teacher-subject">영어</span>
+              <span class="teacher-name">홍지연 선생님</span>
+            </div>
+          </label>
+        </div>
+      </section>
+
+      <button type="submit" class="submit-btn" id="submitBtn">
+        <span>선생님 호출하기</span>
+      </button>
+    </form>
+  </div>
+
+  <!-- 완료 팝업 모달 -->
+  <div id="modalOverlay" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="success-icon">🔔</div>
+      <h2>호출이 완료되었습니다!</h2>
+      <p id="modalMessage">교무실 안으로 호출 알림이 전송되었습니다.<br>문 밖에서 잠시만 기다려 주세요.</p>
+      <button onclick="closeModal()" class="modal-btn">확인</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
